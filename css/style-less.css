@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: whitesmoke;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1em !important;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  line-height: 18px;
+  text-align: left;
+}
+section {
+  padding: 40px 0 40px 0;
+}
+.contentCenter {
+  width: 960px;
+  margin: 0 auto;
+}
+.mod {
+  overflow: hidden;
+}
+.left {
+  float: left;
+}
+.txtUpp {
+  text-transform: uppercase;
+}
+.mbs {
+  margin-bottom: 10px;
+}
+li {
+  height: 165px;
+}
+.caroussel-container {
+  position: relative;
+  height: 166px;
+  overflow: hidden;
+}
+.caroussel-container ul.caroussel {
+  width: 10000000px;
+  height: 166px;
+  -webkit-transition: all 1.5s;
+}
+.caroussel-container ul.caroussel > li {
+  float: left;
+}
+.carousselItemIndicators {
+  position: relative;
+  text-align: right;
+  line-height: 30px;
+  height: 30px;
+}
+.carousselItemIndicators > li {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 7px;
+  margin-right: 5px;
+  cursor: pointer;
+  border: 1px solid #32b4fa;
+}
+.carousselItemIndicators > li.active {
+  background: #32b4fa;
+}
+.carousselItemIndicators > li:last-of-type {
+  margin-right: 0px;
+}
+.legend {
+  line-height: 18px;
+  width: 410px;
+  height: 166px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: white;
+}
+.cUniv {
+  color: #32b4fa !important;
+}

@@ -1,0 +1,59 @@
+li {
+  height: 165px;
+}
+
+.caroussel-container {
+  position: relative;
+  height: 166px;
+  overflow: hidden;
+
+  ul.caroussel {
+    width: 10000000px;
+    height: 166px;
+    -webkit-transition: all 1.5s;
+
+    &>li {
+      float: left;
+    }
+  }
+}
+
+.carousselItemIndicators {
+  position: relative;
+  text-align: right;
+  line-height: 30px;
+  height: 30px;
+
+  &>li {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 7px;
+    margin-right: 5px;
+    cursor: pointer;
+    border: 1px solid @color_univ;
+
+    &.active {
+      background: @color_univ;
+    }
+
+    &:last-of-type {
+      margin-right: 0px;
+    }
+  }
+}
+
+
+
+
+
+
+.legend {
+  line-height: 18px;
+//  width: 248px;
+  width: 410px;
+  height: 166px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: white;
+}

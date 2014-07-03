@@ -1,0 +1,28 @@
+{
+  "name": "caroussel",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "browserify ./js/index.js > ./js/bundle/index.js",
+    "build-css": "lessc ./less/styles.less > ./css/style-less.css",
+    "build-all": "npm run build-js && npm run build-css"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "domready": "~1.0.5",
+    "browserify": "~4.2.0",
+    "react": "~0.10.0",
+    "reactify": "~0.13.1"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  },
+  "dependencies": {
+    "less": "~1.7.3"
+  }
+}
