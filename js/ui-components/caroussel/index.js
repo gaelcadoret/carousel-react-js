@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
 
-
 var BtnControl = React.createClass({
 
     getInitialState: function() {
@@ -15,21 +14,13 @@ var BtnControl = React.createClass({
     },
 
     onHandleClick: function() {
-//        console.log('[BtnControl] idx => ',this.props.idx)
-//        console.log('[BtnControl] loopCpt => ',this.props.loopCpt)
-//        this.setState({
-//            isActive: true
-//        });
         this.props.handleClick(this.props.idx);
-        this.props.handleAcitvateDiapo();
     },
 
     render: function() {
-
         var classe = React.addons.classSet({
             active: this.props.idx == this.getActiveIndicator()
         });
-
         return (
             <li className={classe} onClick={this.onHandleClick}></li>
             )
@@ -41,7 +32,7 @@ var Caroussel = React.createClass({
     getDefaultProps: function() {
         return {
             width: 470,
-            animationDelay: 5000,
+            animationDelay: 3000,
             transitionDelay: 1,
             showIndicators: true,
             showBtnControls: true
@@ -67,9 +58,8 @@ var Caroussel = React.createClass({
 
     startInterval: function() {
         console.log('animation start');
-
         this.setState({
-            timer: setInterval(this.animate, this.props.animationDelay)
+            timer: setInterval(this.animateL2R, this.props.animationDelay, 0)
         });
     },
 
@@ -86,7 +76,7 @@ var Caroussel = React.createClass({
         this.state.caroussel.style.webkitTransition = "none";
     },
 
-    infiniteCaroussel: function() {
+    infiniteCarousselL2R: function() {
         var first = this.state.caroussel.querySelector("li:first-child"); // 2
 
         this.deleteTransition();
@@ -97,30 +87,100 @@ var Caroussel = React.createClass({
         setTimeout(this.setTransition, 500);
     },
 
-    animate: function() {
+    go: function(newLoopCpt) {
+        this.state.caroussel.style.webkitTransform = "translate3d(-" + (this.props.width * newLoopCpt) + "px,0px,0px)"; // 1
+    },
+
+    infiniteCarousselR2L: function(newLoopCpt) {
+        var last = this.state.caroussel.querySelector("li:last-child"); // 2
+
+        this.deleteTransition();
+
+//        setTimeout(this.go1, 0);
+
+        this.state.caroussel.insertBefore(last, this.state.caroussel.firstChild);
+        this.state.caroussel.style.marginLeft = (this.props.width * (newLoopCpt)) + "px"; // 5
+
+        this.setTransition();
+
+        setTimeout(this.go, 10, newLoopCpt);
+//        setTimeout(this.setTransition, 500);
+    },
+
+    animateL2R: function(diff) {
+        var diff = diff || 0;
+
+        if (diff === 0)
+            newLoopCpt = this.state.loopCpt+1;
+        else
+            newLoopCpt = this.state.loopCpt+diff;
+
+        console.log('NEXT >>');
+        console.log('diff', diff)
+        console.log('newLoopCpt', newLoopCpt)
 
         this.setState({
-            loopCpt: this.state.loopCpt + 1
+            loopCpt: newLoopCpt
         });
+        console.log('loopCpt', this.state.loopCpt);
+        this.setTransition();
+        this.state.caroussel.style.webkitTransform = "translate3d(-" + (this.props.width * newLoopCpt) + "px,0px,0px)"; // 1
+        setTimeout(this.infiniteCarousselL2R, this.props.transitionDelay*1000);
+    },
 
+    componentDidUpdate: function() {
+        console.log('componentDidUpdate');
+        console.log('loopCpt', this.state.loopCpt);
+    },
+
+    animateR2L: function(diff) {
+        var diff = diff || 0;
+
+        if (diff === 0)
+            newLoopCpt = this.state.loopCpt-1;
+        else
+            newLoopCpt = this.state.loopCpt+diff;
+
+        console.log('<< PREV');
+        console.log('diff', diff)
+        console.log('newLoopCpt', newLoopCpt)
+
+        this.setState({
+            loopCpt: newLoopCpt
+        });
         console.log('loopCpt', this.state.loopCpt);
 
-        this.state.caroussel.style.webkitTransform = "translate3d(-" + (this.props.width * this.state.loopCpt) + "px,0px,0px)"; // 1
-
-        setTimeout(this.infiniteCaroussel,1500);
+//        this.infiniteCarousselR2L(newLoopCpt);
+        setTimeout(this.infiniteCarousselR2L, 50, newLoopCpt);
     },
 
     handleClick: function(idx) {
+        this.stopInterval();
         console.log('[Caroussel] idx', idx);
+        console.log('[Caroussel] ActiveIndicator', this.getActiveIndicator());
+        var diff = parseInt(idx-this.getActiveIndicator(), 10);
+        console.log('diff', diff);
+
+//        var currentTranslation = this.props.width * this.state.loopCpt;
+//        console.log('currentTranslation', currentTranslation);
+//
+//        var clicTranslation = this.props.width * diff;
+//        console.log('clicTranslation', clicTranslation);
+//
+//        var newTranslation = (currentTranslation+clicTranslation);
+//        console.warn('newTranslation', newTranslation);
+
+        if (diff < 0) {
+            this.animateR2L(diff);
+        } else {
+            this.animateL2R(diff);
+        }
+
+        this.startInterval();
     },
 
     getActiveIndicator: function() {
         return this.state.loopCpt % this.props.data.length
-    },
-
-    handleAcitvateDiapo: function() {
-        var diapo = this.props.idx % (this.props.loopCpt / this.props.nbItemTotal)
-        console.log('diapo', diapo);
     },
 
     getIndicators: function() {
@@ -130,8 +190,7 @@ var Caroussel = React.createClass({
                                     idx={idx}
                                     loopCpt={this.state.loopCpt}
                                     nbItemTotal={this.props.data.length}
-                                    handleClick={this.handleClick}
-                                    handleAcitvateDiapo={this.handleAcitvateDiapo}/>
+                                    handleClick={this.handleClick} />
             }.bind(this));
             return <ul style={{width: this.props.width}} className="carousselItemIndicators">
                         {liItems}
@@ -149,19 +208,8 @@ var Caroussel = React.createClass({
     },
 
     render: function() {
-
         var liItems = this.props.data.map(function(content, idx) {
-            return <li style={{width: this.props.width}} data-id={"diapo-"+idx} key={"item-"+idx}>
-                        <div className="mod">
-                            <img src={content.img} alt=""
-                            className="left" />
-
-                            <div className="legend left">
-                                <h4 className="cUniv mbs txtUpp">{content.title}</h4>
-                                <div className="descr">{content.descr}</div>
-                            </div>
-                        </div>
-                    </li>
+            return <Diapositive key={"item-" + idx } width={this.props.width} content={content} idx={idx} />
         }.bind(this));
 
         return (
@@ -181,6 +229,26 @@ var Caroussel = React.createClass({
 
             </div>
         )
+    }
+
+});
+
+var Diapositive = React.createClass({
+
+    render: function() {
+        return (
+            <li style={{width: this.props.width}}>
+                <div className="mod">
+                    <img src={this.props.content.img} alt=""
+                    className="left" />
+
+                    <div className="legend left">
+                        <h4 className="cUniv mbs txtUpp">{this.props.content.title}</h4>
+                        <div className="descr">{this.props.content.descr}</div>
+                    </div>
+                </div>
+            </li>
+            );
     }
 
 });

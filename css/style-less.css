@@ -62,7 +62,6 @@ li {
 .caroussel-container ul.caroussel {
   width: 10000000px;
   height: 166px;
-  -webkit-transition: all 1.5s;
 }
 .caroussel-container ul.caroussel > li {
   float: left;
