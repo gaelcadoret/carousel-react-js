@@ -41,8 +41,18 @@ section {
 .mbs {
   margin-bottom: 10px;
 }
+.btn {
+  padding: 8px;
+}
+.btn.big {
+  padding: 16px;
+}
 li {
   height: 165px;
+}
+.btnControls {
+  height: 50px;
+  line-height: 50px;
 }
 .caroussel-container {
   position: relative;
