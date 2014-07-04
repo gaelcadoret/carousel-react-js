@@ -100,10 +100,12 @@ var Caroussel = React.createClass({displayName: 'Caroussel',
     },
 
     setTransition: function() {
+        console.log('setTransition');
         this.state.caroussel.style.webkitTransition = "all " + this.props.transitionDelay + "s"; // 6
     },
 
     deleteTransition: function() {
+        console.log('deleteTransition');
         this.state.caroussel.style.webkitTransition = "none";
     },
 
@@ -118,24 +120,19 @@ var Caroussel = React.createClass({displayName: 'Caroussel',
         setTimeout(this.setTransition, 500);
     },
 
-    go: function(newLoopCpt) {
-        this.state.caroussel.style.webkitTransform = "translate3d(-" + (this.props.width * newLoopCpt) + "px,0px,0px)"; // 1
-    },
-
     infiniteCarousselR2L: function(newLoopCpt) {
-        var last = this.state.caroussel.querySelector("li:last-child"); // 2
-
+        console.warn('newLoopCpt [state]', this.state.loopCpt)
         this.deleteTransition();
-
-//        setTimeout(this.go1, 0);
-
+        var last = this.state.caroussel.querySelector("li:last-child"); // 2
         this.state.caroussel.insertBefore(last, this.state.caroussel.firstChild);
-        this.state.caroussel.style.marginLeft = (this.props.width * (newLoopCpt)) + "px"; // 5
+        this.state.caroussel.style.marginLeft = (this.props.width * (this.state.loopCpt)) + "px"; // 5
+
 
         this.setTransition();
 
-        setTimeout(this.go, 10, newLoopCpt);
-//        setTimeout(this.setTransition, 500);
+        console.log('start animation');
+        this.state.caroussel.style.webkitTransform = "translate3d(-" + (this.props.width * this.state.loopCpt) + "px,0px,0px)"; // 1
+        console.log('animation end');
     },
 
     animateL2R: function(diff) {
@@ -153,15 +150,9 @@ var Caroussel = React.createClass({displayName: 'Caroussel',
         this.setState({
             loopCpt: newLoopCpt
         });
-        console.log('loopCpt', this.state.loopCpt);
         this.setTransition();
         this.state.caroussel.style.webkitTransform = "translate3d(-" + (this.props.width * newLoopCpt) + "px,0px,0px)"; // 1
         setTimeout(this.infiniteCarousselL2R, this.props.transitionDelay*1000);
-    },
-
-    componentDidUpdate: function() {
-        console.log('componentDidUpdate');
-        console.log('loopCpt', this.state.loopCpt);
     },
 
     animateR2L: function(diff) {
@@ -174,32 +165,23 @@ var Caroussel = React.createClass({displayName: 'Caroussel',
 
         console.log('<< PREV');
         console.log('diff', diff)
-        console.log('newLoopCpt', newLoopCpt)
+        console.warn('newLoopCpt', newLoopCpt)
 
         this.setState({
             loopCpt: newLoopCpt
         });
-        console.log('loopCpt', this.state.loopCpt);
 
-//        this.infiniteCarousselR2L(newLoopCpt);
-        setTimeout(this.infiniteCarousselR2L, 50, newLoopCpt);
+        setTimeout(this.infiniteCarousselR2L, 0, newLoopCpt);
     },
 
     handleClick: function(idx) {
         this.stopInterval();
+
         console.log('[Caroussel] idx', idx);
         console.log('[Caroussel] ActiveIndicator', this.getActiveIndicator());
         var diff = parseInt(idx-this.getActiveIndicator(), 10);
-        console.log('diff', diff);
 
-//        var currentTranslation = this.props.width * this.state.loopCpt;
-//        console.log('currentTranslation', currentTranslation);
-//
-//        var clicTranslation = this.props.width * diff;
-//        console.log('clicTranslation', clicTranslation);
-//
-//        var newTranslation = (currentTranslation+clicTranslation);
-//        console.warn('newTranslation', newTranslation);
+        console.log('diff', diff);
 
         if (diff < 0) {
             this.animateR2L(diff);
