@@ -17,13 +17,14 @@ var content = [
     {
         img: "img/illus-login_3.jpg",
         title: "Gros titre n°3",
-        descr: "3 - Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor..."
+        descr: "3 - Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor...",
+        sacemPlus: true
     }
 ];
 
 domready(function() {
     React.renderComponent(
-        <Caroussel width="632" data={content} />,
+        <Caroussel width="632" data={content} showBtnControls={false} />,
         document.getElementsByClassName("caroussel__rp")[0]
     );
 });

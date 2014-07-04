@@ -74,18 +74,22 @@ li {
 }
 .carousselItemIndicators > li {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 7px;
-  margin-right: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 20px;
   cursor: pointer;
   border: 1px solid #32b4fa;
+  box-sizing: border-box;
 }
 .carousselItemIndicators > li.active {
   background: #32b4fa;
 }
 .carousselItemIndicators > li:last-of-type {
   margin-right: 0px;
+}
+.cPlus {
+  color: #e0005b;
 }
 .legend {
   line-height: 18px;

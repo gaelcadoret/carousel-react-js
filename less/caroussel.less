@@ -29,12 +29,13 @@ li {
 
   &>li {
     display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 7px;
-    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 20px;
     cursor: pointer;
     border: 1px solid @color_univ;
+	box-sizing: border-box;
 
     &.active {
       background: @color_univ;
@@ -48,12 +49,14 @@ li {
 
 
 
-
+.cPlus {
+	color: @cPlus;
+}
 
 
 .legend {
   line-height: 18px;
-//  width: 248px;
+//  width: 246px;
   width: 410px;
   height: 166px;
   padding: 20px;
