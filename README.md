@@ -1,7 +1,7 @@
 carousel-react-js
 =================
 
-Infinite loop carousel
+Infinite loop carousel with CSS3 transition. Really fluid animation with translate3d animation.
 
 How to use it ?
 
