@@ -5,7 +5,7 @@ Infinite loop carousel
 
 How to use it ?
 
-<code>
+```
 var React = require('react/addons'),
     Caroussel = require('./ui-components/caroussel'),
     domready = require('domready');
@@ -34,4 +34,4 @@ domready(function() {
         document.getElementsByClassName("caroussel__rp")[0]
     );
 });
-<code>
+```
